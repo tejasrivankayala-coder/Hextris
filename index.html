@@ -187,6 +187,7 @@
       <div id="mpHud" class="mp-hud" style="display:none;">
         <div class="mp-hud-timer-bar">
           <span class="mp-hud-timer">⏱ <b id="mpTimer">120</b>s</span>
+          <button class="hud-btn" id="mpPauseBtn" type="button" title="Pause Game">⏸</button>
           <button class="hud-btn" id="mpMuteBtn" type="button" title="Toggle Sound">🔊</button>
         </div>
         <table class="mp-scoreboard">
@@ -219,6 +220,15 @@
             </tr>
           </tbody>
         </table>
+      </div>
+
+      <!-- Multiplayer Pause Screen -->
+      <div id="mpPauseScreen" class="overlay" style="display:none;">
+        <p class="title">⏸ Paused</p>
+        <p style="opacity:0.7; margin-bottom:1rem;">Your game is paused. Others continue playing!</p>
+        <button id="mpResumeBtn" type="button">▶ Resume</button>
+        <button id="mpRestartBtn" type="button">🔄 Restart Match</button>
+        <button id="mpQuitBtn" class="tiny" type="button">🚪 Quit Match</button>
       </div>
 
       <!-- Multiplayer Results Screen -->
