@@ -15,15 +15,22 @@
     <div id="timeUpFlash" class="timeup-flash"></div>
     <header class="header">
       <div class="hud">
+        <div class="hud-section-title">Status</div>
         <div class="hud-row">
-          <span class="hud-item lives-display">❤️ <b id="livesLabel">5</b></span>
-          <span class="hud-item level-display">⭐ <b id="levelLabel">1</b></span>
-          <span class="hud-item timer-display">⏱ <b id="timer">120</b>s</span>
-          <span class="hud-item best-score-display">🏆 <b id="bestScoreLabel">0</b></span>
-          <span class="hud-item hammer-display" id="hammersDisplay">🔨 <b id="hammersLabel">0</b></span>
-          <span class="hud-item shield-display" id="shieldDisplay" style="display:none;">🛡️ <b id="shieldTimer">0</b>s</span>
+          <span class="hud-item lives-display">❤️ Lives <b id="livesLabel">5</b></span>
+          <span class="hud-item level-display">⭐ Level <b id="levelLabel">1</b></span>
+          <span class="hud-item timer-display">⏱ Time <b id="timer">120</b>s</span>
+          <span class="hud-item best-score-display">🏆 Best <b id="bestScoreLabel">0</b></span>
+          <span class="hud-item hammer-display" id="hammersDisplay">🔨 Hammer <b id="hammersLabel">0</b></span>
+          <span class="hud-item shield-display" id="shieldDisplay" style="display:none;">🛡️ Shield <b id="shieldTimer">0</b>s</span>
+        </div>
+        <div class="hud-section-title">Controls</div>
+        <div class="hud-buttons-row">
           <button class="hud-btn pause-btn" id="pauseBtn" type="button" title="Pause Game">⏸</button>
           <button class="hud-btn mute-btn" id="muteBtn" type="button" title="Toggle Sound">🔊</button>
+        </div>
+        <div class="hud-section-title">Theme</div>
+        <div class="hud-buttons-row">
           <div class="hud-theme-selector" id="hudThemeSelector">
             <button class="hud-theme-dot neon active-hud-theme" id="hudThemeNeon" type="button" title="Neon"><span style="background:#ff4081"></span><span style="background:#00e5ff"></span></button>
             <button class="hud-theme-dot ocean" id="hudThemeOcean" type="button" title="Ocean"><span style="background:#1b4965"></span><span style="background:#247ba0"></span></button>
@@ -220,6 +227,13 @@
             </tr>
           </tbody>
         </table>
+        <div class="mp-powers">
+          <div class="mp-powers-title">⚡ Powers <span id="mpPowerCharge">0</span>/3</div>
+          <button class="mp-power-btn power-freeze" id="mpPowerFreeze" type="button" disabled>❄️ Freeze Opponents <span class="power-cost">(1⚡)</span></button>
+          <button class="mp-power-btn power-blind" id="mpPowerBlind" type="button" disabled>🌀 Blind Opponents <span class="power-cost">(2⚡)</span></button>
+          <button class="mp-power-btn power-speed" id="mpPowerSpeed" type="button" disabled>🏃 Speed Burst <span class="power-cost">(1⚡)</span></button>
+          <button class="mp-power-btn power-bonus" id="mpPowerBonus" type="button" disabled>💎 Score Boost <span class="power-cost">(2⚡)</span></button>
+        </div>
       </div>
 
       <!-- Multiplayer Pause Screen -->
