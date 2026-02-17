@@ -12,6 +12,7 @@
 </head>
 <body>
   <div class="game-container">
+    <div id="timeUpFlash" class="timeup-flash"></div>
     <header class="header">
       <div class="hud">
         <div class="hud-row">
@@ -49,6 +50,8 @@
           <button id="settingsBtn" type="button">⚙ Settings</button>
           <button id="tutorialBtn" type="button">❓ How to Play</button>
           <button id="achievementsBtn" type="button">🏆 Achievements</button>
+          <button id="statsBtn" type="button">📊 Stats</button>
+          <button id="dailyChallengeBtn" type="button">📅 Daily Challenge</button>
         </div>
         <p class="subtitle" style="margin-top:0.6rem;">Color Theme</p>
         <div class="menu-theme-row">
@@ -115,7 +118,7 @@
         <div class="mp-lobby">
           <div class="mp-how-it-works">
             <p class="mp-info-title">🌐 How it works</p>
-            <p class="mp-info-text">Both players open this game in their browser (any device, any network). One creates a room, the other joins with the code.</p>
+            <p class="mp-info-text">Up to 3 players can play! All players open this game in their browser (any device, any network). One creates a room, others join with the code.</p>
           </div>
           <div class="mp-name-row">
             <label for="mpNameInput">Your Name</label>
@@ -134,7 +137,7 @@
               <span class="mp-code-label">Room Code</span>
               <span class="mp-code-value" id="roomCodeDisplay">----</span>
               <button type="button" id="copyCodeBtn" class="mp-copy-btn">📋 Copy Code</button>
-              <span class="mp-code-hint">Share this code with your friend so they can join</span>
+              <span class="mp-code-hint">Share this code with friends so they can join</span>
             </div>
             <div class="mp-players-list">
               <div class="mp-player-row">
@@ -142,12 +145,16 @@
                 <span id="mpHostNameDisplay">You</span>
                 <span class="mp-tag">HOST</span>
               </div>
-              <div class="mp-player-row" id="mpGuestSlot">
-                <span class="mp-dot" id="mpGuestDot" style="background:#555;"></span>
-                <span id="mpGuestNameDisplay">Waiting for opponent...</span>
+              <div class="mp-player-row" id="mpGuest1Slot">
+                <span class="mp-dot" id="mpGuest1Dot" style="background:#555;"></span>
+                <span id="mpGuest1NameDisplay">Waiting...</span>
+              </div>
+              <div class="mp-player-row" id="mpGuest2Slot">
+                <span class="mp-dot" id="mpGuest2Dot" style="background:#555;"></span>
+                <span id="mpGuest2NameDisplay">Waiting...</span>
               </div>
             </div>
-            <p class="mp-status" id="mpHostStatus">⏳ Waiting for player 2...</p>
+            <p class="mp-status" id="mpHostStatus">⏳ Waiting for players (0/2)...</p>
             <button id="startOnlineMatchBtn" type="button" style="display:none;">⚔ Start Match</button>
           </div>
           <div id="mpGuestWaiting" style="display:none;">
@@ -161,6 +168,10 @@
                 <span class="mp-dot" style="background:#4ecdc4;"></span>
                 <span id="mpJoinGuestDisplay">You</span>
               </div>
+              <div class="mp-player-row">
+                <span class="mp-dot" style="background:#ffab40;"></span>
+                <span>Player 3</span>
+              </div>
             </div>
             <p class="mp-status" id="mpGuestStatus">🔗 Connecting...</p>
           </div>
@@ -172,22 +183,42 @@
         <button id="multiBackBtn" class="tiny" type="button" style="margin-top:1rem;">Back</button>
       </div>
 
-      <!-- Multiplayer HUD (shared hexagon) -->
+      <!-- Multiplayer HUD (independent games scoreboard) -->
       <div id="mpHud" class="mp-hud" style="display:none;">
-        <div class="mp-hud-player mp-hud-p1">
-          <span class="mp-hud-name" id="mpP1Name">P1</span>
-          <span class="mp-hud-score">⭐ <b id="mpP1Score">0</b></span>
-        </div>
-        <div class="mp-hud-center">
-          <span class="mp-hud-lives">❤️ <b id="mpLivesLabel">5</b></span>
+        <div class="mp-hud-timer-bar">
           <span class="mp-hud-timer">⏱ <b id="mpTimer">120</b>s</span>
-          <span class="mp-hud-level">LV <b id="mpLevelLabel">1</b></span>
           <button class="hud-btn" id="mpMuteBtn" type="button" title="Toggle Sound">🔊</button>
         </div>
-        <div class="mp-hud-player mp-hud-p2">
-          <span class="mp-hud-name" id="mpP2Name">P2</span>
-          <span class="mp-hud-score">⭐ <b id="mpP2Score">0</b></span>
-        </div>
+        <table class="mp-scoreboard">
+          <thead>
+            <tr>
+              <th>Player</th>
+              <th>Score</th>
+              <th>Lives</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="mp-row-p1" id="mpRowP1">
+              <td class="mp-sb-name" id="mpP1Name">P1</td>
+              <td class="mp-sb-score" id="mpP1Score">0</td>
+              <td class="mp-sb-lives" id="mpP1Lives">❤️❤️❤️❤️❤️</td>
+              <td class="mp-sb-status" id="mpP1Status">Playing</td>
+            </tr>
+            <tr class="mp-row-p2" id="mpRowP2">
+              <td class="mp-sb-name" id="mpP2Name">P2</td>
+              <td class="mp-sb-score" id="mpP2Score">0</td>
+              <td class="mp-sb-lives" id="mpP2Lives">❤️❤️❤️❤️❤️</td>
+              <td class="mp-sb-status" id="mpP2Status">Playing</td>
+            </tr>
+            <tr class="mp-row-p3" id="mpRowP3">
+              <td class="mp-sb-name" id="mpP3Name">P3</td>
+              <td class="mp-sb-score" id="mpP3Score">0</td>
+              <td class="mp-sb-lives" id="mpP3Lives">❤️❤️❤️❤️❤️</td>
+              <td class="mp-sb-status" id="mpP3Status">Playing</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
       <!-- Multiplayer Results Screen -->
@@ -198,10 +229,15 @@
             <span class="mp-result-name" id="mpResP1Name">P1</span>
             <span class="mp-result-score" id="mpResP1Score">0</span>
           </div>
-          <div class="mp-result-vs">VS</div>
+          <div class="mp-result-vs" id="mpResultVs1">VS</div>
           <div class="mp-result-card" id="mpResult2">
             <span class="mp-result-name" id="mpResP2Name">P2</span>
             <span class="mp-result-score" id="mpResP2Score">0</span>
+          </div>
+          <div class="mp-result-vs" id="mpResultVs2">VS</div>
+          <div class="mp-result-card" id="mpResult3">
+            <span class="mp-result-name" id="mpResP3Name">P3</span>
+            <span class="mp-result-score" id="mpResP3Score">0</span>
           </div>
         </div>
         <div style="display:flex; gap:0.8rem; justify-content:center; margin-top:1rem;">
@@ -224,6 +260,7 @@
       <!-- Game Over Screen -->
       <div id="gameOverScreen" class="overlay">
         <p class="title">Game Over</p>
+        <p id="gameOverBestBadge" class="game-over-best-badge" style="display:none;">👑 New Best Score!</p>
         <p class="final-score">Final Score: <span id="finalScore">0</span></p>
         <p id="finalStats" class="final-stats">All Lives Used</p>
         <button id="restartBtn" type="button">Play Again</button>
@@ -236,6 +273,13 @@
         <button id="resumeBtn" type="button">Resume</button>
         <button id="pauseRestartBtn" type="button">🔄 Restart</button>
         <button class="tiny" id="pauseToMenuBtn" type="button">Menu</button>
+        <div class="pause-shortcuts">
+          <p class="shortcuts-title">⌨ Keyboard Shortcuts</p>
+          <div class="shortcut-row"><kbd>←</kbd> <kbd>→</kbd> or <kbd>A</kbd> <kbd>D</kbd> <span>Rotate hexagon</span></div>
+          <div class="shortcut-row"><kbd>1</kbd>–<kbd>9</kbd> <span>Use hammer on side</span></div>
+          <div class="shortcut-row"><kbd>P</kbd> or <kbd>Esc</kbd> <span>Pause / Resume</span></div>
+          <div class="shortcut-row"><kbd>M</kbd> <span>Mute / Unmute</span></div>
+        </div>
       </div>
 
       <!-- Pause Countdown Overlay -->
@@ -272,6 +316,10 @@
             <button id="settingsMuteBtn" class="toggle-btn" type="button">ON</button>
           </div>
         </div>
+        <div class="setting-row" style="margin-top:0.5rem; border-top:1px solid var(--border); padding-top:1rem;">
+          <label>Reset All Data</label>
+          <button id="resetDataBtn" class="toggle-btn danger-btn" type="button">Reset</button>
+        </div>
         <button id="settingsBackBtn" class="tiny" type="button">Back</button>
       </div>
 
@@ -290,6 +338,7 @@
           <div class="tutorial-item">⚠️ <b>Penalty (purple)</b> — Deducts score</div>
           <div class="tutorial-item">🔒 <b>3 mistakes</b> — Rotation locks for 10s</div>
           <div class="tutorial-item">🎨 <b>New colors</b> appear at 3000 & 5000 score</div>
+          <div class="tutorial-item">⭓ <b>Shape shifts</b> — The polygon changes shape at certain levels!</div>
           <div class="tutorial-item">⏱ <b>Time Chaser</b> — Race the clock for high score</div>
         </div>
         <button id="tutorialBackBtn" class="tiny" type="button">Back</button>
@@ -302,12 +351,41 @@
         <button id="achievementsBackBtn" class="tiny" type="button">Back</button>
       </div>
 
+      <!-- Stats Screen -->
+      <div id="statsScreen" class="overlay">
+        <p class="title">📊 Stats</p>
+        <div class="stats-panel">
+          <div class="stat-card"><span class="stat-value" id="statGamesPlayed">0</span><span class="stat-label">Games Played</span></div>
+          <div class="stat-card"><span class="stat-value" id="statTotalScore">0</span><span class="stat-label">Total Score</span></div>
+          <div class="stat-card"><span class="stat-value" id="statBestScore">0</span><span class="stat-label">Best Score</span></div>
+          <div class="stat-card"><span class="stat-value" id="statTimePlayed">0m</span><span class="stat-label">Time Played</span></div>
+          <div class="stat-card"><span class="stat-value" id="statMatchesCleared">0</span><span class="stat-label">Matches Cleared</span></div>
+          <div class="stat-card"><span class="stat-value" id="statBestCombo">0</span><span class="stat-label">Best Combo</span></div>
+        </div>
+        <button id="statsBackBtn" class="tiny" type="button">Back</button>
+      </div>
+
+      <!-- Daily Challenge Screen -->
+      <div id="dailyChallengeScreen" class="overlay">
+        <p class="title">📅 Daily Challenge</p>
+        <p class="subtitle" id="dailyChallengeDate"></p>
+        <div class="daily-info-panel">
+          <p class="daily-desc">Same challenge for everyone today!<br>Fixed seed • 90 seconds • Medium difficulty</p>
+          <div class="daily-best-row">
+            <span>Your Best Today:</span>
+            <span class="daily-best-value" id="dailyBestScore">—</span>
+          </div>
+        </div>
+        <button id="dailyPlayBtn" type="button">🎯 Play Today's Challenge</button>
+        <button id="dailyChallengeBackBtn" class="tiny" type="button">Back</button>
+      </div>
+
       <!-- Leaderboard Screen -->
       <div id="leaderboardScreen" class="overlay">
         <p class="title">⭐ Leaderboard</p>
         <div class="leaderboard-tabs">
           <button class="tab-btn active" data-type="classic">Classic</button>
-          <button class="tab-btn" data-type="arcade">Arcade</button>
+          <button class="tab-btn" data-type="multiplayer">Multiplayer</button>
         </div>
         <div id="leaderboardList" class="leaderboard-list"></div>
         <button class="tiny" id="leaderboardBackBtn" type="button">Back</button>
