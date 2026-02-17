@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hextris - Advanced</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+</head>
+<body>
+  <div class="game-container">
+    <header class="header">
+      <div class="hud">
+        <div class="hud-row">
+          <span class="hud-item lives-display">❤️ <b id="livesLabel">5</b></span>
+          <span class="hud-item level-display">⭐ <b id="levelLabel">1</b></span>
+          <span class="hud-item timer-display">⏱ <b id="timer">120</b>s</span>
+          <span class="hud-item best-score-display">🏆 <b id="bestScoreLabel">0</b></span>
+          <span class="hud-item hammer-display" id="hammersDisplay">🔨 <b id="hammersLabel">0</b></span>
+          <span class="hud-item shield-display" id="shieldDisplay" style="display:none;">🛡️ <b id="shieldTimer">0</b>s</span>
+          <button class="hud-btn pause-btn" id="pauseBtn" type="button" title="Pause Game">⏸</button>
+          <button class="hud-btn mute-btn" id="muteBtn" type="button" title="Toggle Sound">🔊</button>
+          <div class="hud-theme-selector" id="hudThemeSelector">
+            <button class="hud-theme-dot neon active-hud-theme" id="hudThemeNeon" type="button" title="Neon"><span style="background:#ff4081"></span><span style="background:#00e5ff"></span></button>
+            <button class="hud-theme-dot ocean" id="hudThemeOcean" type="button" title="Ocean"><span style="background:#1b4965"></span><span style="background:#247ba0"></span></button>
+            <button class="hud-theme-dot fire" id="hudThemeFire" type="button" title="Fire"><span style="background:#ff0000"></span><span style="background:#ff6600"></span></button>
+          </div>
+        </div>
+      </div>
+      <span id="timerDisplay" style="display:none;"></span>
+      <span id="comboDisplay" class="combo-display" style="display:none;">COMBO x<b id="comboCount">0</b></span>
+      <span id="scoreLabel" style="display:none;">0</span>
+    </header>
+
+    <main class="game-area">
+      <canvas id="gameCanvas" width="600" height="600"></canvas>
+      
+      <!-- Main Menu -->
+      <div id="menuScreen" class="overlay">
+        <p class="title">⬡ HEXTRIS</p>
+        <div class="menu-grid">
+          <button id="classicBtn" type="button">Classic</button>
+          <button id="timeChaserBtn" type="button">⏱ Time Chaser</button>
+          <button id="multiplayerBtn" type="button">Multiplayer</button>
+          <button id="leaderboardBtn" type="button">Leaderboard</button>
+          <button id="settingsBtn" type="button">⚙ Settings</button>
+          <button id="tutorialBtn" type="button">❓ How to Play</button>
+          <button id="achievementsBtn" type="button">🏆 Achievements</button>
+        </div>
+        <p class="subtitle" style="margin-top:0.6rem;">Color Theme</p>
+        <div class="menu-theme-row">
+          <button class="menu-theme-dot neon-dot active-theme" id="menuThemeNeon" type="button" title="Neon">
+            <span style="background:#ff4081"></span><span style="background:#00e5ff"></span><span style="background:#7c4dff"></span><span style="background:#ffab40"></span>
+          </button>
+          <button class="menu-theme-dot ocean-dot" id="menuThemeOcean" type="button" title="Ocean">
+            <span style="background:#1b4965"></span><span style="background:#247ba0"></span><span style="background:#b2dbbf"></span><span style="background:#ff1654"></span>
+          </button>
+          <button class="menu-theme-dot fire-dot" id="menuThemeFire" type="button" title="Fire">
+            <span style="background:#ff0000"></span><span style="background:#ff6600"></span><span style="background:#ffaa00"></span><span style="background:#ff3300"></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Time Chaser Mode Selection -->
+      <div id="timerSelectScreen" class="overlay">
+        <p class="title">Time Chaser</p>
+        <p class="subtitle">Select Time Limit</p>
+        <div class="menu-grid">
+          <button id="timer30Btn" type="button">⏱ 30 seconds</button>
+          <button id="timer60Btn" type="button">⏱ 60 seconds</button>
+          <button id="timer90Btn" type="button">⏱ 90 seconds</button>
+          <button id="timerBackBtn" class="tiny" type="button">Back</button>
+        </div>
+      </div>
+
+      <!-- Difficulty Selection -->
+      <div id="difficultyScreen" class="overlay">
+        <p class="title">Select Difficulty</p>
+        <div class="menu-grid">
+          <button id="easyBtn" type="button">🟢 EASY</button>
+          <button id="mediumBtn" type="button">🟡 MEDIUM</button>
+          <button id="hardBtn" type="button">🔴 HARD</button>
+          <button id="diffBackBtn" class="tiny" type="button">Back</button>
+        </div>
+      </div>
+
+      <!-- Theme Selection -->
+      <div id="themeScreen" class="overlay">
+        <p class="title">Choose Theme</p>
+        <p class="subtitle">Pick a color palette</p>
+        <div class="theme-grid">
+          <button id="themeNeonBtn" class="theme-btn neon-theme" type="button">
+            <span class="theme-preview"><span style="background:#ff4081"></span><span style="background:#00e5ff"></span><span style="background:#7c4dff"></span><span style="background:#ffab40"></span></span>
+            Neon
+          </button>
+          <button id="themeOceanBtn" class="theme-btn ocean-theme" type="button">
+            <span class="theme-preview"><span style="background:#1b4965"></span><span style="background:#247ba0"></span><span style="background:#b2dbbf"></span><span style="background:#ff1654"></span></span>
+            Ocean
+          </button>
+          <button id="themeFireBtn" class="theme-btn fire-theme" type="button">
+            <span class="theme-preview"><span style="background:#ff0000"></span><span style="background:#ff6600"></span><span style="background:#ffaa00"></span><span style="background:#ff3300"></span></span>
+            Fire
+          </button>
+        </div>
+        <button id="themeBackBtn" class="tiny" type="button">Back</button>
+      </div>
+
+      <!-- Multiplayer Lobby -->
+      <div id="multiplayerScreen" class="overlay">
+        <p class="title">⚔ Multiplayer</p>
+        <p class="subtitle">Play online with a friend on any device</p>
+        <div class="mp-lobby">
+          <div class="mp-how-it-works">
+            <p class="mp-info-title">🌐 How it works</p>
+            <p class="mp-info-text">Both players open this game in their browser (any device, any network). One creates a room, the other joins with the code.</p>
+          </div>
+          <div class="mp-name-row">
+            <label for="mpNameInput">Your Name</label>
+            <input type="text" id="mpNameInput" placeholder="Enter your name" maxlength="12">
+          </div>
+          <div id="mpCreateJoinSection">
+            <button id="createRoomBtn" type="button" class="mp-action-btn">🏠 Create Room</button>
+            <div class="mp-or-divider"><span>OR</span></div>
+            <div class="mp-join-row">
+              <input type="text" id="roomCodeInput" placeholder="CODE" maxlength="4" class="mp-code-input">
+              <button id="joinRoomBtn" type="button" class="mp-action-btn small">🔗 Join</button>
+            </div>
+          </div>
+          <div id="mpHostWaiting" style="display:none;">
+            <div class="mp-code-display">
+              <span class="mp-code-label">Room Code</span>
+              <span class="mp-code-value" id="roomCodeDisplay">----</span>
+              <button type="button" id="copyCodeBtn" class="mp-copy-btn">📋 Copy Code</button>
+              <span class="mp-code-hint">Share this code with your friend so they can join</span>
+            </div>
+            <div class="mp-players-list">
+              <div class="mp-player-row">
+                <span class="mp-dot" style="background:#ff6b9d;"></span>
+                <span id="mpHostNameDisplay">You</span>
+                <span class="mp-tag">HOST</span>
+              </div>
+              <div class="mp-player-row" id="mpGuestSlot">
+                <span class="mp-dot" id="mpGuestDot" style="background:#555;"></span>
+                <span id="mpGuestNameDisplay">Waiting for opponent...</span>
+              </div>
+            </div>
+            <p class="mp-status" id="mpHostStatus">⏳ Waiting for player 2...</p>
+            <button id="startOnlineMatchBtn" type="button" style="display:none;">⚔ Start Match</button>
+          </div>
+          <div id="mpGuestWaiting" style="display:none;">
+            <div class="mp-players-list">
+              <div class="mp-player-row">
+                <span class="mp-dot" style="background:#ff6b9d;"></span>
+                <span id="mpJoinHostDisplay">Host</span>
+                <span class="mp-tag">HOST</span>
+              </div>
+              <div class="mp-player-row">
+                <span class="mp-dot" style="background:#4ecdc4;"></span>
+                <span id="mpJoinGuestDisplay">You</span>
+              </div>
+            </div>
+            <p class="mp-status" id="mpGuestStatus">🔗 Connecting...</p>
+          </div>
+          <div id="mpErrorSection" style="display:none;">
+            <p class="mp-error" id="mpErrorMsg">Connection failed</p>
+            <button id="mpRetryBtn" type="button" class="tiny">Try Again</button>
+          </div>
+        </div>
+        <button id="multiBackBtn" class="tiny" type="button" style="margin-top:1rem;">Back</button>
+      </div>
+
+      <!-- Multiplayer HUD (shared hexagon) -->
+      <div id="mpHud" class="mp-hud" style="display:none;">
+        <div class="mp-hud-player mp-hud-p1">
+          <span class="mp-hud-name" id="mpP1Name">P1</span>
+          <span class="mp-hud-score">⭐ <b id="mpP1Score">0</b></span>
+        </div>
+        <div class="mp-hud-center">
+          <span class="mp-hud-lives">❤️ <b id="mpLivesLabel">5</b></span>
+          <span class="mp-hud-timer">⏱ <b id="mpTimer">120</b>s</span>
+          <span class="mp-hud-level">LV <b id="mpLevelLabel">1</b></span>
+          <button class="hud-btn" id="mpMuteBtn" type="button" title="Toggle Sound">🔊</button>
+        </div>
+        <div class="mp-hud-player mp-hud-p2">
+          <span class="mp-hud-name" id="mpP2Name">P2</span>
+          <span class="mp-hud-score">⭐ <b id="mpP2Score">0</b></span>
+        </div>
+      </div>
+
+      <!-- Multiplayer Results Screen -->
+      <div id="mpResultScreen" class="overlay">
+        <p class="title" id="mpResultTitle">🏆 Winner!</p>
+        <div class="mp-result-grid">
+          <div class="mp-result-card" id="mpResult1">
+            <span class="mp-result-name" id="mpResP1Name">P1</span>
+            <span class="mp-result-score" id="mpResP1Score">0</span>
+          </div>
+          <div class="mp-result-vs">VS</div>
+          <div class="mp-result-card" id="mpResult2">
+            <span class="mp-result-name" id="mpResP2Name">P2</span>
+            <span class="mp-result-score" id="mpResP2Score">0</span>
+          </div>
+        </div>
+        <div style="display:flex; gap:0.8rem; justify-content:center; margin-top:1rem;">
+          <button id="mpRematchBtn" type="button">⚔ Rematch</button>
+          <button id="mpResultMenuBtn" class="tiny" type="button">Menu</button>
+        </div>
+      </div>
+
+      <!-- Continue Screen (Lost 1 Life) -->
+      <div id="continueScreen" class="overlay">
+        <p class="title">Life Lost!</p>
+        <p class="final-score">Current Score: <span id="continueScore">0</span></p>
+        <p id="livesRemaining" class="final-stats"></p>
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+          <button id="continueBtn" type="button">Continue (+2 min)</button>
+          <button id="continueMenuBtn" class="tiny" type="button">Menu</button>
+        </div>
+      </div>
+
+      <!-- Game Over Screen -->
+      <div id="gameOverScreen" class="overlay">
+        <p class="title">Game Over</p>
+        <p class="final-score">Final Score: <span id="finalScore">0</span></p>
+        <p id="finalStats" class="final-stats">All Lives Used</p>
+        <button id="restartBtn" type="button">Play Again</button>
+        <button id="gameOverToMenuBtn" class="tiny" type="button">Menu</button>
+      </div>
+
+      <!-- Paused Screen -->
+      <div id="pauseScreen" class="overlay">
+        <p class="title">Paused</p>
+        <button id="resumeBtn" type="button">Resume</button>
+        <button id="pauseRestartBtn" type="button">🔄 Restart</button>
+        <button class="tiny" id="pauseToMenuBtn" type="button">Menu</button>
+      </div>
+
+      <!-- Pause Countdown Overlay -->
+      <div id="countdownOverlay" class="overlay countdown-overlay" style="display:none;">
+        <p id="countdownNumber" class="countdown-number">3</p>
+      </div>
+
+      <!-- New Best Score Celebration Overlay -->
+      <div id="newBestOverlay" class="new-best-overlay" style="display:none;">
+        <div class="new-best-banner">
+          <span class="new-best-crown">👑</span>
+          <span class="new-best-text">NEW BEST SCORE!</span>
+          <span class="new-best-score" id="newBestScore">0</span>
+        </div>
+        <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+      </div>
+
+      <!-- Settings Screen -->
+      <div id="settingsScreen" class="overlay">
+        <p class="title">⚙ Settings</p>
+        <div class="settings-panel">
+          <div class="setting-row">
+            <label>Music Volume</label>
+            <input type="range" id="musicVolume" min="0" max="100" value="30" class="slider">
+            <span id="musicVolVal" class="slider-val">30%</span>
+          </div>
+          <div class="setting-row">
+            <label>SFX Volume</label>
+            <input type="range" id="sfxVolume" min="0" max="100" value="50" class="slider">
+            <span id="sfxVolVal" class="slider-val">50%</span>
+          </div>
+          <div class="setting-row">
+            <label>Sound</label>
+            <button id="settingsMuteBtn" class="toggle-btn" type="button">ON</button>
+          </div>
+        </div>
+        <button id="settingsBackBtn" class="tiny" type="button">Back</button>
+      </div>
+
+      <!-- Tutorial / How to Play -->
+      <div id="tutorialScreen" class="overlay">
+        <p class="title">❓ How to Play</p>
+        <div class="tutorial-content">
+          <div class="tutorial-item">⬅➡ <b>Arrow Keys / A,D</b> — Rotate hexagon</div>
+          <div class="tutorial-item">🎯 <b>Match 3</b> same-color blocks on a side to clear them</div>
+          <div class="tutorial-item">❤️ <b>5 Lives</b> — Stack hits outer ring = lose a life</div>
+          <div class="tutorial-item">🔨 <b>Hammers</b> — Collect & press 1-6 to clear a side</div>
+          <div class="tutorial-item">💣 <b>Bomb</b> — Clears entire side instantly</div>
+          <div class="tutorial-item">🐢 <b>Slow-Mo</b> — Slows blocks for 5 seconds</div>
+          <div class="tutorial-item">🛡️ <b>Shield</b> — Protects from 1 life loss for 8 seconds</div>
+          <div class="tutorial-item">⚡ <b>Speed-Up</b> — Blocks fall faster (careful!)</div>
+          <div class="tutorial-item">⚠️ <b>Penalty (purple)</b> — Deducts score</div>
+          <div class="tutorial-item">🔒 <b>3 mistakes</b> — Rotation locks for 10s</div>
+          <div class="tutorial-item">🎨 <b>New colors</b> appear at 3000 & 5000 score</div>
+          <div class="tutorial-item">⏱ <b>Time Chaser</b> — Race the clock for high score</div>
+        </div>
+        <button id="tutorialBackBtn" class="tiny" type="button">Back</button>
+      </div>
+
+      <!-- Achievements Screen -->
+      <div id="achievementsScreen" class="overlay">
+        <p class="title">🏆 Achievements</p>
+        <div id="achievementsList" class="achievements-list"></div>
+        <button id="achievementsBackBtn" class="tiny" type="button">Back</button>
+      </div>
+
+      <!-- Leaderboard Screen -->
+      <div id="leaderboardScreen" class="overlay">
+        <p class="title">⭐ Leaderboard</p>
+        <div class="leaderboard-tabs">
+          <button class="tab-btn active" data-type="classic">Classic</button>
+          <button class="tab-btn" data-type="arcade">Arcade</button>
+        </div>
+        <div id="leaderboardList" class="leaderboard-list"></div>
+        <button class="tiny" id="leaderboardBackBtn" type="button">Back</button>
+      </div>
+
+      <!-- Game Center Info -->
+      <div id="gameInfo" class="game-info" style="display:none;">
+        <p id="infoText"></p>
+      </div>
+    </main>
+  </div>
+
+  <audio id="popSound" preload="auto"></audio>
+  <audio id="hitSound" preload="auto"></audio>
+  <audio id="powerupSound" preload="auto"></audio>
+  <audio id="bgMusic" preload="auto" loop></audio>
+
+  <script src="game.js"></script>
+</body>
+</html>
