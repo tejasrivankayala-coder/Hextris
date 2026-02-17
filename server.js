@@ -83,26 +83,11 @@ io.on('connection', (socket) => {
 
     room.started = true;
     const names = room.players.map(p => p.name);
-    // Generate a shared seed so all players get the same block sequence
-    const sharedSeed = Math.floor(Math.random() * 2147483647);
-    console.log(`[Game] Match started in room ${roomCode} with ${names.length} players, seed: ${sharedSeed}`);
+    console.log(`[Game] Match started in room ${roomCode} with ${names.length} players`);
 
     io.to(roomCode).emit('matchStart', {
       names: names,
-      playerCount: names.length,
-      seed: sharedSeed
-    });
-  });
-
-  // Power-up used by a player (relay to all others)
-  socket.on('mpPower', (data) => {
-    const roomCode = socket.roomCode;
-    if (!roomCode || !rooms[roomCode]) return;
-
-    console.log(`[Power] P${socket.playerIndex + 1} used ${data.type} in room ${roomCode}`);
-    socket.to(roomCode).emit('mpPower', {
-      playerIndex: socket.playerIndex,
-      type: data.type
+      playerCount: names.length
     });
   });
 
