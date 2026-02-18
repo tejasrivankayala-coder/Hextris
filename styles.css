@@ -52,7 +52,7 @@ body {
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 600px;
+  max-width: 700px;
   padding: 0.25rem 0;
   gap: 0.4rem;
   transition: opacity 0.4s ease;
@@ -68,23 +68,23 @@ body {
 .hud-row {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.35rem;
   justify-content: center;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   flex-wrap: wrap;
 }
 
 .hud-item {
   background: var(--surface);
   border: 1px solid var(--border);
-  padding: 0.35rem 0.7rem;
+  padding: 0.3rem 0.6rem;
   border-radius: 10px;
   display: flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.25rem;
   font-family: 'Orbitron', sans-serif;
   font-weight: 600;
-  font-size: 0.75rem;
+  font-size: 0.65rem;
   letter-spacing: 0.03em;
   backdrop-filter: blur(4px);
   transition: all 0.3s ease;
@@ -92,7 +92,7 @@ body {
 
 .hud-item b {
   font-weight: 800;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
 
 .lives-display {
@@ -197,45 +197,65 @@ body {
   background: var(--bg-mid);
   width: 100%;
   height: auto;
-  max-width: 90vmin;
-  max-height: 90vmin;
+  max-width: 95vmin;
+  max-height: 95vmin;
 }
 
 /* Overlays */
 .overlay {
-  position: absolute;
+  position: fixed;
   inset: 0;
   display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: rgba(8, 8, 20, 0.92);
+  background: rgba(8, 8, 20, 0.95);
   backdrop-filter: blur(16px) saturate(1.2);
   gap: 1rem;
   text-align: center;
-  padding: 1.5rem;
-  z-index: 10;
+  padding: 2rem 1.5rem;
+  z-index: 100;
+  overflow-y: auto;
 }
 
 #menuScreen {
-  position: absolute;
+  position: fixed;
   inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: rgba(8, 8, 20, 0.92);
+  background: rgba(8, 8, 20, 0.95);
   backdrop-filter: blur(16px) saturate(1.2);
   gap: 1rem;
   text-align: center;
-  padding: 1.5rem;
+  padding: 2rem 1.5rem;
   overflow-y: auto;
+  z-index: 100;
+}
+
+/* Menu Card Box */
+.menu-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem 2.5rem;
+  background: rgba(15, 15, 35, 0.85);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow:
+    0 0 30px -5px rgba(0, 229, 255, 0.15),
+    0 0 60px -10px rgba(124, 77, 255, 0.1),
+    0 20px 40px -15px rgba(0, 0, 0, 0.5);
+  max-width: 520px;
+  width: 92%;
 }
 
 /* Typography */
 .title {
   font-family: 'Orbitron', sans-serif;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: 900;
   letter-spacing: 0.12em;
   background: linear-gradient(135deg, #00e5ff 0%, #7c4dff 50%, #ff4081 100%);
@@ -300,10 +320,10 @@ body {
 /* Buttons */
 button {
   font-family: 'Orbitron', sans-serif;
-  font-size: 0.78rem;
+  font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.1em;
-  padding: 0.7rem 1.6rem;
+  padding: 0.6rem 1.4rem;
   border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
   border-radius: 12px;
   background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 12%, transparent), color-mix(in srgb, var(--accent2) 12%, transparent));
@@ -1050,6 +1070,7 @@ button.tiny:hover {
   .game-container { padding: 0.3rem; gap: 0.3rem; }
   .overlay { padding: 1rem; gap: 0.7rem; }
   #menuScreen { gap: 0.7rem; padding: 1rem; }
+  .menu-card { padding: 1.2rem 1rem; gap: 0.7rem; }
   .final-score { font-size: 1.1rem; }
   .menu-theme-row { gap: 0.4rem; }
   .mp-hud { padding: 0.2rem 0.3rem; gap: 0.2rem; }
@@ -1318,20 +1339,20 @@ button.tiny:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0.4rem 0.6rem;
+  padding: 0rem 0.4rem;
   background: rgba(8, 8, 20, 0.85);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--border);
   z-index: 5;
   font-family: 'Orbitron', sans-serif;
-  font-size: 0.7rem;
-  gap: 0.3rem;
+  font-size: 0.6rem;
+  gap: 0.15rem;
 }
 
 .mp-hud-timer-bar {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.4rem;
 }
 
 .mp-scoreboard {
@@ -1339,23 +1360,23 @@ button.tiny:hover {
   max-width: 500px;
   border-collapse: collapse;
   font-family: 'Rajdhani', sans-serif;
-  font-size: 0.75rem;
+  font-size: 0.65rem;
 }
 
 .mp-scoreboard thead th {
   font-family: 'Orbitron', sans-serif;
-  font-size: 0.55rem;
+  font-size: 0.45rem;
   font-weight: 700;
   color: var(--accent);
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  padding: 0.25rem 0.5rem;
+  padding: 0.1rem 0.3rem;
   border-bottom: 1px solid var(--border);
   text-align: center;
 }
 
 .mp-scoreboard tbody td {
-  padding: 0.3rem 0.5rem;
+  padding: 0.15rem 0.3rem;
   text-align: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
@@ -1364,18 +1385,18 @@ button.tiny:hover {
 .mp-row-p2 .mp-sb-name { color: #4ecdc4; font-weight: 700; }
 .mp-row-p3 .mp-sb-name { color: #ffab40; font-weight: 700; }
 
-.mp-sb-score { color: #ffab40; font-weight: 700; font-size: 0.85rem; }
-.mp-sb-lives { font-size: 0.65rem; letter-spacing: -0.02em; }
-.mp-sb-status { font-size: 0.7rem; font-weight: 600; }
+.mp-sb-score { color: #ffab40; font-weight: 700; font-size: 0.75rem; }
+.mp-sb-lives { font-size: 0.55rem; letter-spacing: -0.02em; }
+.mp-sb-status { font-size: 0.6rem; font-weight: 600; }
 
 .mp-hud-timer {
   background: rgba(0, 229, 255, 0.08);
   border: 1px solid rgba(0, 229, 255, 0.2);
-  padding: 0.25rem 0.6rem;
+  padding: 0.15rem 0.45rem;
   border-radius: 10px;
   font-weight: 700;
   color: #00e5ff;
-  font-size: 0.75rem;
+  font-size: 0.65rem;
   transition: all 0.3s ease;
 }
 

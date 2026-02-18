@@ -41,29 +41,31 @@
       
       <!-- Main Menu -->
       <div id="menuScreen" class="overlay">
-        <p class="title">⬡ HEXTRIS</p>
-        <div class="menu-grid">
-          <button id="classicBtn" type="button">Classic</button>
-          <button id="timeChaserBtn" type="button">⏱ Time Chaser</button>
-          <button id="multiplayerBtn" type="button">Multiplayer</button>
-          <button id="leaderboardBtn" type="button">Leaderboard</button>
-          <button id="settingsBtn" type="button">⚙ Settings</button>
-          <button id="tutorialBtn" type="button">❓ How to Play</button>
-          <button id="achievementsBtn" type="button">🏆 Achievements</button>
-          <button id="statsBtn" type="button">📊 Stats</button>
-          <button id="dailyChallengeBtn" type="button">📅 Daily Challenge</button>
-        </div>
-        <p class="subtitle" style="margin-top:0.6rem;">Color Theme</p>
-        <div class="menu-theme-row">
-          <button class="menu-theme-dot neon-dot active-theme" id="menuThemeNeon" type="button" title="Neon">
-            <span style="background:#ff4081"></span><span style="background:#00e5ff"></span><span style="background:#7c4dff"></span><span style="background:#ffab40"></span>
-          </button>
-          <button class="menu-theme-dot ocean-dot" id="menuThemeOcean" type="button" title="Ocean">
-            <span style="background:#1b4965"></span><span style="background:#247ba0"></span><span style="background:#b2dbbf"></span><span style="background:#ff1654"></span>
-          </button>
-          <button class="menu-theme-dot fire-dot" id="menuThemeFire" type="button" title="Fire">
-            <span style="background:#ff0000"></span><span style="background:#ff6600"></span><span style="background:#ffaa00"></span><span style="background:#ff3300"></span>
-          </button>
+        <div class="menu-card">
+          <p class="title">⬡ HEXTRIS</p>
+          <div class="menu-grid">
+            <button id="classicBtn" type="button">Classic</button>
+            <button id="timeChaserBtn" type="button">⏱ Time Chaser</button>
+            <button id="multiplayerBtn" type="button">Multiplayer</button>
+            <button id="leaderboardBtn" type="button">Leaderboard</button>
+            <button id="settingsBtn" type="button">⚙ Settings</button>
+            <button id="tutorialBtn" type="button">❓ How to Play</button>
+            <button id="achievementsBtn" type="button">🏆 Achievements</button>
+            <button id="statsBtn" type="button">📊 Stats</button>
+            <button id="dailyChallengeBtn" type="button">📅 Daily Challenge</button>
+          </div>
+          <p class="subtitle" style="margin-top:0.6rem;">Color Theme</p>
+          <div class="menu-theme-row">
+            <button class="menu-theme-dot neon-dot active-theme" id="menuThemeNeon" type="button" title="Neon">
+              <span style="background:#ff4081"></span><span style="background:#00e5ff"></span><span style="background:#7c4dff"></span><span style="background:#ffab40"></span>
+            </button>
+            <button class="menu-theme-dot ocean-dot" id="menuThemeOcean" type="button" title="Ocean">
+              <span style="background:#1b4965"></span><span style="background:#247ba0"></span><span style="background:#b2dbbf"></span><span style="background:#ff1654"></span>
+            </button>
+            <button class="menu-theme-dot fire-dot" id="menuThemeFire" type="button" title="Fire">
+              <span style="background:#ff0000"></span><span style="background:#ff6600"></span><span style="background:#ffaa00"></span><span style="background:#ff3300"></span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -113,9 +115,9 @@
 
       <!-- Multiplayer Lobby -->
       <div id="multiplayerScreen" class="overlay">
-        <p class="title">⚔ Multiplayer</p>
-        <p class="subtitle">Play online with a friend on any device</p>
-        <div class="mp-lobby">
+          <p class="title">⚔ Multiplayer</p>
+          <p class="subtitle">Play online with a friend on any device</p>
+          <div class="mp-lobby">
           <div class="mp-how-it-works">
             <p class="mp-info-title">🌐 How it works</p>
             <p class="mp-info-text">Up to 3 players can play! All players open this game in their browser (any device, any network). One creates a room, others join with the code.</p>
@@ -230,66 +232,65 @@
         <button id="mpRestartBtn" type="button">🔄 Restart Match</button>
         <button id="mpQuitBtn" class="tiny" type="button">🚪 Quit Match</button>
       </div>
-
       <!-- Multiplayer Results Screen -->
       <div id="mpResultScreen" class="overlay">
         <p class="title" id="mpResultTitle">🏆 Winner!</p>
-        <div class="mp-result-grid">
-          <div class="mp-result-card" id="mpResult1">
-            <span class="mp-result-name" id="mpResP1Name">P1</span>
-            <span class="mp-result-score" id="mpResP1Score">0</span>
+          <div class="mp-result-grid">
+            <div class="mp-result-card" id="mpResult1">
+              <span class="mp-result-name" id="mpResP1Name">P1</span>
+              <span class="mp-result-score" id="mpResP1Score">0</span>
+            </div>
+            <div class="mp-result-vs" id="mpResultVs1">VS</div>
+            <div class="mp-result-card" id="mpResult2">
+              <span class="mp-result-name" id="mpResP2Name">P2</span>
+              <span class="mp-result-score" id="mpResP2Score">0</span>
+            </div>
+            <div class="mp-result-vs" id="mpResultVs2">VS</div>
+            <div class="mp-result-card" id="mpResult3">
+              <span class="mp-result-name" id="mpResP3Name">P3</span>
+              <span class="mp-result-score" id="mpResP3Score">0</span>
+            </div>
           </div>
-          <div class="mp-result-vs" id="mpResultVs1">VS</div>
-          <div class="mp-result-card" id="mpResult2">
-            <span class="mp-result-name" id="mpResP2Name">P2</span>
-            <span class="mp-result-score" id="mpResP2Score">0</span>
+          <div style="display:flex; gap:0.8rem; justify-content:center; margin-top:1rem;">
+            <button id="mpRematchBtn" type="button">⚔ Rematch</button>
+            <button id="mpResultMenuBtn" class="tiny" type="button">Menu</button>
           </div>
-          <div class="mp-result-vs" id="mpResultVs2">VS</div>
-          <div class="mp-result-card" id="mpResult3">
-            <span class="mp-result-name" id="mpResP3Name">P3</span>
-            <span class="mp-result-score" id="mpResP3Score">0</span>
-          </div>
-        </div>
-        <div style="display:flex; gap:0.8rem; justify-content:center; margin-top:1rem;">
-          <button id="mpRematchBtn" type="button">⚔ Rematch</button>
-          <button id="mpResultMenuBtn" class="tiny" type="button">Menu</button>
-        </div>
       </div>
 
       <!-- Continue Screen (Lost 1 Life) -->
       <div id="continueScreen" class="overlay">
         <p class="title">Life Lost!</p>
-        <p class="final-score">Current Score: <span id="continueScore">0</span></p>
-        <p id="livesRemaining" class="final-stats"></p>
-        <div style="display: flex; gap: 1rem; justify-content: center;">
-          <button id="continueBtn" type="button">Continue (+2 min)</button>
-          <button id="continueMenuBtn" class="tiny" type="button">Menu</button>
-        </div>
+          <p class="final-score">Current Score: <span id="continueScore">0</span></p>
+          <p id="livesRemaining" class="final-stats"></p>
+          <div style="display: flex; gap: 1rem; justify-content: center;">
+            <button id="continueBtn" type="button">Continue (+2 min)</button>
+            <button id="continueMenuBtn" class="tiny" type="button">Menu</button>
+          </div>
       </div>
 
       <!-- Game Over Screen -->
       <div id="gameOverScreen" class="overlay">
         <p class="title">Game Over</p>
-        <p id="gameOverBestBadge" class="game-over-best-badge" style="display:none;">👑 New Best Score!</p>
-        <p class="final-score">Final Score: <span id="finalScore">0</span></p>
-        <p id="finalStats" class="final-stats">All Lives Used</p>
-        <button id="restartBtn" type="button">Play Again</button>
-        <button id="gameOverToMenuBtn" class="tiny" type="button">Menu</button>
+          <p id="gameOverBestBadge" class="game-over-best-badge" style="display:none;">👑 New Best Score!</p>
+          <p class="final-score">Final Score: <span id="finalScore">0</span></p>
+          <p id="finalStats" class="final-stats">All Lives Used</p>
+          <button id="restartBtn" type="button">Play Again</button>
+          <button id="gameOverToMenuBtn" class="tiny" type="button">Menu</button>
       </div>
 
       <!-- Paused Screen -->
       <div id="pauseScreen" class="overlay">
         <p class="title">Paused</p>
-        <button id="resumeBtn" type="button">Resume</button>
-        <button id="pauseRestartBtn" type="button">🔄 Restart</button>
-        <button class="tiny" id="pauseToMenuBtn" type="button">Menu</button>
-        <div class="pause-shortcuts">
-          <p class="shortcuts-title">⌨ Keyboard Shortcuts</p>
-          <div class="shortcut-row"><kbd>←</kbd> <kbd>→</kbd> or <kbd>A</kbd> <kbd>D</kbd> <span>Rotate hexagon</span></div>
-          <div class="shortcut-row"><kbd>1</kbd>–<kbd>9</kbd> <span>Use hammer on side</span></div>
-          <div class="shortcut-row"><kbd>P</kbd> or <kbd>Esc</kbd> <span>Pause / Resume</span></div>
-          <div class="shortcut-row"><kbd>M</kbd> <span>Mute / Unmute</span></div>
-        </div>
+          <button id="resumeBtn" type="button">Resume</button>
+          <button id="pauseRestartBtn" type="button">🔄 Restart</button>
+          <button class="tiny" id="pauseToMenuBtn" type="button">Menu</button>
+          <div class="pause-shortcuts">
+            <p class="shortcuts-title">⌨ Keyboard Shortcuts</p>
+            <div class="shortcut-row"><kbd>←</kbd> <kbd>→</kbd> or <kbd>A</kbd> <kbd>D</kbd> <span>Rotate hexagon</span></div>
+            <div class="shortcut-row"><kbd>1</kbd>–<kbd>9</kbd> <span>Use hammer on side</span></div>
+            <div class="shortcut-row"><kbd>P</kbd> or <kbd>Esc</kbd> <span>Pause / Resume</span></div>
+            <div class="shortcut-row"><kbd>M</kbd> <span>Mute / Unmute</span></div>
+          </div>
       </div>
 
       <!-- Pause Countdown Overlay -->
